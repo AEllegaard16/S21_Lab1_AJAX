@@ -177,5 +177,33 @@ namespace ZombieParty.Controllers
 
             return View(zombieVM);
         }
+
+        public async Task<IActionResult> Favorite(int id)
+        {
+            Zombie? zombie = await _baseDonnees.Zombies.FindAsync(id);
+            if (zombie == null)
+            {
+                return NotFound();
+            }
+
+            // valeur de .IsFavorite va être égal à son opposé (si .IsFavorite = true, !.IsFavorite = false)
+            zombie.IsFavorite = !zombie.IsFavorite;
+
+            // oubli : Update + SaveChangesAsync (deux lignes ici) :
+            _baseDonnees.Update(zombie);
+            await _baseDonnees.SaveChangesAsync();
+
+            return Json(zombie.IsFavorite);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            Zombie? zombie = await _baseDonnees.Zombies.FindAsync(id);
+            if (zombie == null)
+            {
+                return NotFound();
+            }
+            return PartialView("_ZombieDetails", zombie);
+        }
     }
 }

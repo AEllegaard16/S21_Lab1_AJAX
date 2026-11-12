@@ -76,3 +76,18 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(function() {
+            $("tr.WeaponList").on("mouseover", function() {
+                $(this).addClass("highlight")
+            })
+            .on("mouseout", function() {
+                $(this).removeClass("highlight")
+            });
+        });
+        </script>
+
+}
+    
